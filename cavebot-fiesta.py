@@ -42,10 +42,17 @@ def move(location):
   x,y = pyautogui.center(location)
   pyautogui.moveTo(x, y)
 
+def move_to_corner(location):
+    #left, top, width, height = location 
+    left, top, width, height = location 
+    x_corner = left + width
+    y_corner = top + height
+    pyautogui.moveTo(x_corner, y_corner)
+
 def get_troll(location):
   if location != None:
     sleep(0.5)
-    move(location)
+    move_to_corner(location)
     pyautogui.click(button='right')
     sleep(1)
     collect_gold()
@@ -79,7 +86,7 @@ def move_and_click(location):
   move(location)
   pyautogui.click()
   
-#''' working for taking loot from dead troll corpses (use to test autoloot)
+''' working for taking loot from dead troll corpses (use to test autoloot)
 while True:
     attack_monster_on_battle()
     dead_troll = pyautogui.locateOnScreen('images/dead_troll.PNG', confidence=0.7, region=REGION_TROLL)
@@ -87,9 +94,64 @@ while True:
         sleep(2)
         get_troll(dead_troll)
         skin_corpse(dead_troll)
+'''
+
+keyboard.wait('p')
+#'''
+while True:
+    for waypoint in range(9):
+
+      position_in_map = pyautogui.locateOnScreen('icons/icon_{}.png'.format(waypoint), confidence=0.7, region=MINIMAP)
+
+      if position_in_map:
+          move_and_click(position_in_map)
+          print('going to waypoint: {}'.format(waypoint))
+          conjure_rune()
+          sleep(8)
+
+          check_position = pyautogui.locateOnScreen('icons/icon_{}.png'.format(waypoint), confidence=0.7, region=MINIMAP)
+          if not check_position:
+              print('already on waypoint: {}'.format(waypoint))
+              conjure_rune()
+
+              while True:
+                  sleep(1)
+                  troll_on_battle = pyautogui.locateOnScreen('images/troll_battle.PNG', confidence=0.9, region=REGION_BATTLE)
+
+                  if troll_on_battle:
+                     conjure_rune()
+                     print('encontrei um troll')
+                     print('Nao estou atacando... Atacar')
+                     attack_monster_on_battle()
+                     sleep(1)
+
+                  #sleep(3)
+                  dead_troll = pyautogui.locateOnScreen('images/dead_troll.PNG', confidence=0.8, region=REGION_TROLL)
+                  print('procurando corpo')
+                  
+                        
+                  if dead_troll:
+                    conjure_rune()
+                    print('encontrei um corpo')
+                    get_troll(dead_troll)
+                    skin_corpse(dead_troll)
+                  
+                  #else:
+                  #  battle = pyautogui.locateOnScreen('images/region_battle.PNG', confidence=0.9, region=REGION_BATTLE)
+                  #  if battle:
+                  #    break
+                  battle = pyautogui.locateOnScreen('images/region_battle.PNG', confidence=0.9, region=REGION_BATTLE)
+                  if battle and not dead_troll:
+                    print('battle limpo')
+                    print('indo para proximo waypoint')
+                    break
 #'''
 
-#keyboard.wait('p')
+#OBS: essa é a melhor versão
+#BUGS: As vezes ele mata o troll e ja pula para o proximo waypoint...
+
+#old version
+
 '''
 while True:
     for waypoint in range(9):
@@ -120,9 +182,3 @@ while True:
                         if battle:
                             break
 '''
-
-
-
-
-
-
