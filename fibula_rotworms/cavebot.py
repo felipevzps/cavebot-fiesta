@@ -4,7 +4,7 @@ import random
 from time import sleep
 import threading
 
-REGION_BATTLE = (1730, 581, 190, 200)
+REGION_BATTLE = (1724, 581, 190, 200)
 REGION_MANA = (1880, 235, 35, 22)
 REGION_ARROW = (1835, 363)
 MINIMAP = (1728, 31, 183, 182)
