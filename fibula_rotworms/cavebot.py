@@ -1,27 +1,27 @@
 import pyautogui
 import keyboard
+import random
 from time import sleep
 import threading
 
 REGION_BATTLE = (1730, 581, 190, 200)
 REGION_MANA = (1880, 235, 35, 22)
-REGION_CHAR = (1240, 404)
 REGION_ARROW = (1835, 363)
 MINIMAP = (1728, 31, 183, 182)
 
-loop_ativo = False
+loop_status = False
 
-def iniciar_loop():
-    global loop_ativo
-    loop_ativo = True
+def start_loop():
+    global loop_status
+    loop_status = True
 
-def pausar_loop():
-    global loop_ativo
-    loop_ativo = False
+def stop_loop():
+    global loop_status
+    loop_status = False
 
-# Registre as teclas de ativação e pausa
-keyboard.add_hotkey('page up', iniciar_loop)
-keyboard.add_hotkey('page down', pausar_loop)
+# Register start/stop keys
+keyboard.add_hotkey('page up', start_loop)
+keyboard.add_hotkey('page down', stop_loop)
 
 # Conjure rune (cast spell saved on F3 hotkey)
 def conjure_rune():
@@ -31,20 +31,21 @@ def conjure_rune():
     pyautogui.click(REGION_ARROW, button='left')
     keyboard.press_and_release('F4')
 
+# Eat food on REGION_ARROW slot
 def eat_food():
    pyautogui.moveTo(REGION_ARROW)
    for i in range(5):
     pyautogui.click(REGION_ARROW, button='right')
 
-def attack_next_rotworm():
+# Search for monster and attack if it is on battle
+def attack_next_rotworm(): 
   
   targeting = pyautogui.locateOnScreen('fibula_rotworms/images/targeting_rotworm.PNG', confidence=0.9, region=REGION_BATTLE)
   full_hp = pyautogui.locateOnScreen('fibula_rotworms/images/full_hp_rotworm.PNG', confidence=0.9, region=REGION_BATTLE)
   
   if full_hp and not targeting:
     sleep(0.5)
-    eat_food()
-    pyautogui.press('space')
+    pyautogui.press("'")
 
 # Move mouse to center of the image
 def move(location):
@@ -56,43 +57,43 @@ def move_and_click(location):
   move(location)
   pyautogui.click()
 
-threadKillRotworm = threading.Thread(target=attack_next_rotworm)
+# Function that open a thread for attack_next_rotworm()
+def thread_attack_rotworm():
+    while True:  # Infinite loop to continuos attack rotworms
+        if loop_status:
+            attack_next_rotworm()
+
+# Creates a attack thread outside principal loop
+threadKillRotworm = threading.Thread(target=thread_attack_rotworm)
+threadKillRotworm.daemon = True  # Defining thread as daemon to stop it when the principal program ends
+threadKillRotworm.start()
 
 while True:
-    if loop_ativo:
-      for waypoint in range(25):
+    if loop_status:
+        for waypoint in range(25):
 
-        position_in_map = pyautogui.locateOnScreen('fibula_rotworms/icons/icon_{}.png'.format(waypoint), confidence=0.7, region=MINIMAP)
+            position_in_map = pyautogui.locateOnScreen('fibula_rotworms/icons/icon_{}.png'.format(waypoint), confidence=0.9, region=MINIMAP)
 
-        if position_in_map:
-            move_and_click(position_in_map)
-            print('going to waypoint: {}'.format(waypoint))
-            conjure_rune()
-            eat_food()
-
-            if not threadKillRotworm.is_alive():
-              threadKillRotworm = threading.Thread(target=attack_next_rotworm)
-              threadKillRotworm.start()
-            
-            threadKillRotworm.join()
-
-            sleep(13)
-
-            check_position = pyautogui.locateOnScreen('fibula_rotworms/icons/icon_{}.png'.format(waypoint), confidence=0.7, region=MINIMAP)
-            if not check_position:
-                print('already on waypoint: {}'.format(waypoint))
+            if position_in_map:
+                move_and_click(position_in_map)
+                print('Going to waypoint: {}'.format(waypoint))
                 conjure_rune()
+                eat_food()
 
-                while True:
+                # Calculate a random wait time between 9 and 13 seconds
+                wait_time = random.uniform(9, 13)
+                sleep(wait_time)
+
+                check_position = pyautogui.locateOnScreen('fibula_rotworms/icons/icon_{}.png'.format(waypoint), confidence=0.9, region=MINIMAP)
+                if not check_position:
+                    print('Already on waypoint: {}'.format(waypoint))
                     conjure_rune()
-                    if not threadKillRotworm.is_alive():
-                      threadKillRotworm = threading.Thread(target=attack_next_rotworm)
-                      threadKillRotworm.start()
 
-                    threadKillRotworm.join()
-                    
-                    battle = pyautogui.locateOnScreen('fibula_rotworms/images/region_battle.PNG', confidence=0.9, region=REGION_BATTLE)
-                    if battle:
-                      print('battle limpo')
-                      print('---')
-                      break
+                    while True:
+                        conjure_rune()
+
+                        battle = pyautogui.locateOnScreen('fibula_rotworms/images/region_battle.PNG', confidence=0.9, region=REGION_BATTLE)
+                        if battle:
+                            print('Clean battle')
+                            print('---')
+                            break
