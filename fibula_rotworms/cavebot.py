@@ -90,8 +90,8 @@ while True:
                 conjure_rune()
                 eat_food()
 
-                # Calculate a random wait time between 6 and 8 seconds
-                wait_time = random.uniform(6, 8)
+                # Calculate a random wait time between 5 and 7 seconds
+                wait_time = random.uniform(5, 7)
                 sleep(wait_time)
 
                 check_position = pyautogui.locateOnScreen('fibula_rotworms/icons/icon_{}.png'.format(waypoint), confidence=0.9, region=MINIMAP)
