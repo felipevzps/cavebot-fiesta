@@ -6,7 +6,7 @@ import threading
 
 REGION_BATTLE = (1650, 500, 300, 250)
 REGION_MANA = (1880, 235, 35, 22)
-REGION_ARROW = (1558, 552)
+REGION_ARROW = (1830, 359)
 MINIMAP = (1728, 31, 183, 182)
 
 loop_status = False
