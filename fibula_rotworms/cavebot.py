@@ -9,6 +9,8 @@ REGION_MANA = (1880, 235, 35, 22)
 REGION_ARROW = (1830, 359)
 MINIMAP = (1728, 31, 183, 182)
 
+#ZOOM = 4x
+
 loop_status = False
 
 def start_loop():
@@ -80,7 +82,7 @@ threadKillRotworm.start()
 
 while True:
     if loop_status:
-        for waypoint in range(45):
+        for waypoint in range(46):
 
             position_in_map = pyautogui.locateOnScreen('fibula_rotworms/icons/icon_{}.png'.format(waypoint), confidence=0.9, region=MINIMAP)
 
