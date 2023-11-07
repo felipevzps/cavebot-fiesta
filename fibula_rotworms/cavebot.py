@@ -57,11 +57,11 @@ def attack_next_rotworm():
   
   if rotworm_on_battle and not targeting:
     sleep(0.5)
-    pyautogui.press("'")
+    pyautogui.press("numlock")
 
   if halloween_skeleton_on_battle and not targeting:
     sleep(0.5)
-    pyautogui.press("'")
+    pyautogui.press("numlock")
 
   if attacking_monk:
     sleep(0.5)
@@ -103,7 +103,7 @@ ore_positions = [9, 10, 15, 31, 45]
 
 while True:
     if loop_status:
-        for waypoint in range(9,46):
+        for waypoint in range(46):
 
             position_in_map = pyautogui.locateOnScreen('fibula_rotworms/icons/icon_{}.png'.format(waypoint), confidence=0.9, region=MINIMAP)
 
@@ -142,7 +142,7 @@ while True:
                         for position in list_positions:
                               for index in range(4):
                                   
-                                  print('Searching ore: {} on position: {}...'.format(index, position))
+                                  #print('Searching ore: {} on position: {}...'.format(index, position))
                                   ore = pyautogui.locateOnScreen('fibula_rotworms/ores/ore_{}.PNG'.format(index), confidence=0.7, region=position)
                                   
                                   if ore:
@@ -151,5 +151,5 @@ while True:
                                       found_ore = True
 
                         if not found_ore:
-                           print("Don't find ores")
+                           print("Don't found ores")
                            break
