@@ -4,12 +4,20 @@ import random
 from time import sleep
 import threading
 
+#ZOOM = 4x
+
 REGION_BATTLE = (1650, 500, 300, 250)
-REGION_MANA = (1880, 235, 35, 22)
+REGION_MANA = (1852, 237, 59, 21)
 REGION_ARROW = (1830, 359)
 MINIMAP = (1728, 31, 183, 182)
+PICKAXE = (1579, 545)
 
-#ZOOM = 4x
+right = (1258,393,50,50)
+left = (1192,396,50,50)
+top = (1225,363,50,50)
+bot = (1225,428,50,50)
+
+list_positions = [top, bot, right, left]
 
 loop_status = False
 
@@ -25,13 +33,13 @@ def stop_loop():
 keyboard.add_hotkey('page up', start_loop)
 keyboard.add_hotkey('page down', stop_loop)
 
-# Conjure rune (cast spell saved on F4 hotkey)
+# Conjure rune (cast spell saved on F12 hotkey)
 def conjure_rune():
-  mana = pyautogui.locateOnScreen('fibula_rotworms/images/mana.PNG', confidence=0.6, region=REGION_MANA)
+  mana = pyautogui.locateOnScreen('fibula_rotworms/images/mana2.PNG', confidence=0.6, region=REGION_MANA)
   if mana != None:
     pyautogui.moveTo(REGION_ARROW)
     pyautogui.click(REGION_ARROW, button='left')
-    keyboard.press_and_release('F4')
+    keyboard.press_and_release('F12')
 
 # Eat food on REGION_ARROW slot
 def eat_food():
@@ -75,14 +83,27 @@ def thread_attack_rotworm():
         if loop_status:
             attack_next_rotworm()
 
+# Use pickaxe on ore -> gather silver and steel
+def get_ore(location):
+  if location != None:
+    sleep(0.5)
+    pyautogui.moveTo(PICKAXE)
+    pyautogui.click(PICKAXE, button='right')
+    sleep(0.5)
+    move(location)
+    pyautogui.click(button='left')
+    sleep(1)
+   
 # Creates a attack thread outside principal loop
 threadKillRotworm = threading.Thread(target=thread_attack_rotworm)
 threadKillRotworm.daemon = True  # Defining thread as daemon to stop it when the principal program ends
 threadKillRotworm.start()
 
+ore_positions = [9, 10, 15, 31, 45]
+
 while True:
     if loop_status:
-        for waypoint in range(46):
+        for waypoint in range(9,46):
 
             position_in_map = pyautogui.locateOnScreen('fibula_rotworms/icons/icon_{}.png'.format(waypoint), confidence=0.9, region=MINIMAP)
 
@@ -110,3 +131,25 @@ while True:
                             print('Clean battle')
                             print('---')
                             break
+                
+                # Gathering steel, silver and iron
+                if not check_position and waypoint in ore_positions:
+                    print('Already on position: {}'.format(waypoint))
+                    sleep(3)
+
+                    while True:
+                        found_ore = False # Track if ore was found
+                        for position in list_positions:
+                              for index in range(4):
+                                  
+                                  print('Searching ore: {} on position: {}...'.format(index, position))
+                                  ore = pyautogui.locateOnScreen('fibula_rotworms/ores/ore_{}.PNG'.format(index), confidence=0.7, region=position)
+                                  
+                                  if ore:
+                                      print('Found ore: {}'.format(index))
+                                      get_ore(ore)
+                                      found_ore = True
+
+                        if not found_ore:
+                           print("Don't find ores")
+                           break
