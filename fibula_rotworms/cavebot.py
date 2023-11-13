@@ -1,6 +1,7 @@
 import pyautogui
 import keyboard
 import random
+import time
 from time import sleep
 import threading
 
@@ -20,6 +21,9 @@ bot = (1225,428,50,50)
 list_positions = [top, bot, right, left]
 
 loop_status = False
+
+t = time.localtime()
+current_time = time.strftime("%H:%M:%S", t)
 
 def start_loop():
     global loop_status
@@ -99,7 +103,17 @@ threadKillRotworm = threading.Thread(target=thread_attack_rotworm)
 threadKillRotworm.daemon = True  # Defining thread as daemon to stop it when the principal program ends
 threadKillRotworm.start()
 
+ore_names = {
+   0: 'Silver',
+   1: 'Steel',
+   2: 'Iron',
+   3: 'Iron'
+}
+
 ore_positions = [9, 10, 15, 31, 45]
+
+print(current_time, ':', 'Start cavebot ...')
+print('---')
 
 while True:
     if loop_status:
@@ -108,33 +122,53 @@ while True:
             position_in_map = pyautogui.locateOnScreen('fibula_rotworms/icons/icon_{}.png'.format(waypoint), confidence=0.9, region=MINIMAP)
 
             if position_in_map:
+                
+                t = time.localtime()
+                current_time = time.strftime("%H:%M:%S", t)
+
                 move_and_click(position_in_map)
-                print('Going to waypoint: {}'.format(waypoint))
+                print(current_time, ':', 'Going to waypoint: {}'.format(waypoint))
                 conjure_rune()
                 eat_food()
 
                 # Calculate a random wait time between 5 and 7 seconds
-                wait_time = random.uniform(5, 7)
+                wait_time = random.uniform(6, 7)
                 sleep(wait_time)
 
                 check_position = pyautogui.locateOnScreen('fibula_rotworms/icons/icon_{}.png'.format(waypoint), confidence=0.9, region=MINIMAP)
+                
                 if not check_position:
-                    print('Already on waypoint: {}'.format(waypoint))
+                    
+                    t = time.localtime()
+                    current_time = time.strftime("%H:%M:%S", t)
+
+                    print(current_time, ':', 'Already on waypoint: {}'.format(waypoint))
                     conjure_rune()
 
                     while True:
+                        
                         conjure_rune()
 
                         battle_monk = pyautogui.locateOnScreen('fibula_rotworms/images/region_battle_monk.PNG', confidence=0.9, region=REGION_BATTLE)
                         battle_berserker = pyautogui.locateOnScreen('fibula_rotworms/images/region_battle_berserker.PNG', confidence=0.9, region=REGION_BATTLE)
+                        
                         if battle_monk or battle_berserker:
-                            print('Clean battle')
+                            
+                            t = time.localtime()
+                            current_time = time.strftime("%H:%M:%S", t)
+
+                            print(current_time, ':', 'Clean battle')
                             print('---')
                             break
                 
                 # Gathering steel, silver and iron
                 if not check_position and waypoint in ore_positions:
-                    print('Already on position: {}'.format(waypoint))
+                    
+                    t = time.localtime()
+                    current_time = time.strftime("%H:%M:%S", t)
+
+                    print(current_time, ':', 'Already on position: {}'.format(waypoint))
+                    print(current_time, ':', 'Start mining ...')
                     sleep(3)
 
                     while True:
@@ -146,10 +180,19 @@ while True:
                                   ore = pyautogui.locateOnScreen('fibula_rotworms/ores/ore_{}.PNG'.format(index), confidence=0.7, region=position)
                                   
                                   if ore:
-                                      print('Found ore: {}'.format(index))
+                                      
+                                      t = time.localtime()
+                                      current_time = time.strftime("%H:%M:%S", t)
+
+                                      print(current_time, ':', 'Found ore: {}'.format(ore_names[index]))
                                       get_ore(ore)
                                       found_ore = True
 
                         if not found_ore:
-                           print("Don't found ores")
+                           
+                           t = time.localtime()
+                           current_time = time.strftime("%H:%M:%S", t)
+
+                           print(current_time, ':', "Don't found ores")
+                           print('---')
                            break
