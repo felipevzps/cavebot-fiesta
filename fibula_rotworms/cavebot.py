@@ -110,9 +110,9 @@ ore_names = {
    3: 'Iron'
 }
 
-ore_positions = [9, 10, 15, 31, 45]
+ore_positions = [8, 9, 10, 15, 31, 45]
 
-print(current_time, ':', 'Start cavebot ...')
+print(current_time, ':', 'Starting cavebot ...')
 print('---')
 
 while True:
@@ -168,7 +168,7 @@ while True:
                     current_time = time.strftime("%H:%M:%S", t)
 
                     print(current_time, ':', 'Already on position: {}'.format(waypoint))
-                    print(current_time, ':', 'Start mining ...')
+                    print(current_time, ':', 'Starting mining ...')
                     sleep(3)
 
                     while True:
@@ -176,7 +176,6 @@ while True:
                         for position in list_positions:
                               for index in range(4):
                                   
-                                  #print('Searching ore: {} on position: {}...'.format(index, position))
                                   ore = pyautogui.locateOnScreen('fibula_rotworms/ores/ore_{}.PNG'.format(index), confidence=0.7, region=position)
                                   
                                   if ore:
@@ -187,12 +186,15 @@ while True:
                                       print(current_time, ':', 'Found ore: {}'.format(ore_names[index]))
                                       get_ore(ore)
                                       found_ore = True
-
-                        if not found_ore:
                            
-                           t = time.localtime()
-                           current_time = time.strftime("%H:%M:%S", t)
+                        t = time.localtime()
+                        current_time = time.strftime("%H:%M:%S", t)
+                        
+                        if found_ore:
+                           print(current_time, ':', "Didn't find any more ores")
 
-                           print(current_time, ':', "Don't found ores")
-                           print('---')
-                           break
+                        else:
+                           print(current_time, ':', "No ores found")
+                        
+                        print('---')
+                        break
