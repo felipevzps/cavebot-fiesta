@@ -10,7 +10,7 @@ REGION_CHAR = (1240, 404)
 REGION_ARROW = (1835, 363)
 
 slimes_counter = -1
-loop_ativo = False  # Inicialmente, o loop está pausado
+loop_ativo = False  # Inittialy, the loop is off
 
 t = time.localtime()
 current_time = time.strftime("%H:%M:%S", t)
@@ -23,7 +23,7 @@ def pausar_loop():
     global loop_ativo
     loop_ativo = False
 
-# Registre as teclas de ativação e pausa
+# Register keys to turn on/off the auto fishing
 keyboard.add_hotkey('page up', iniciar_loop)
 keyboard.add_hotkey('page down', pausar_loop)
 
