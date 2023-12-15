@@ -56,7 +56,7 @@ Mana trainer (adori vis // adura vita) = F12
 
 The `threadKillRotworm` manages the `thread_attack_rotworm` function. This parallel approach optimizes the bot's performance, especially when searching for images or executing actions simultaneously, ensuring a more responsive and streamlined experience.
 
-[fibula_rotworms](https://github.com/felipevzps/cavebot-fiesta/tree/main/fibula_rotworms) include complete waypoints for fibula rotworms cave and waypoints to collect `silver` and `iron ores`.
+[fibula_rotworms](https://github.com/felipevzps/cavebot-fiesta/tree/main/fibula_rotworms) include complete and free waypoints for fibula rotworms cave and waypoints to collect `silver` and `iron ores`.
 
 ## Achievements
 > Successfully leveled:
