@@ -13,11 +13,10 @@ This repository also includes [autofishing](https://github.com/felipevzps/cavebo
 ## Requirements
 
 ```
-import pyautogui
-import keyboard
-import random
-import time
-import threading
+pip install pyautogui
+pip install keyboard
+pip install Pillow
+pip install opencv-python
 ```
 
 ## Usage
