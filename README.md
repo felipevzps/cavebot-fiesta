@@ -64,4 +64,4 @@ The `threadKillRotworm` manages the `thread_attack_rotworm` function. This paral
 > - Marksman [50, distance 71]
 > - Guardian [40, skills 70/70]
 >
-> - Also collected more than 1700 silver ores and 7000 iron ores
+> - Also collected more than 800 silver, 1700 steel and 7000 iron ores
