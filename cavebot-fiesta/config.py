@@ -5,12 +5,12 @@ REGION_MANA = (1840, 161, 24, 18)                       # region when mana is ~9
 REGION_ARROW = (1841, 289)                              # arrow region
 MONSTER_IN_BATTLE = (1765, 443)                         # first monster on battle
 REGION_PLAYER = (1201, 393, 126, 126)                   # region 8x8 sqm near player (to loot dead copses)
-PLAYER_SQM = (1268, 405)                                # sqm under player foot (to drop items from lootbag)
+PLAYER_SQM = (1261, 444)                                # sqm under player foot (to drop items from lootbag)
 REGION_LOOT = (1745, 569, 167, 461)                     # region to find items from corpse (below battle)
 
 # directory to images (change this to play other ots) 
-img_dir =  "antiga/images/"
-icons_dir = "antiga/icons/"
+img_dir =  "cavebot-fiesta/antiga/images/"
+icons_dir = "cavebot-fiesta/antiga/icons/"
 
 # items to collect from corpse
 items = ["goldcoin1", "goldcoin2"]                      # gold coins from loot (5-9 and 10-24 stacks)
