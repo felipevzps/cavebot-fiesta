@@ -110,8 +110,7 @@ def loot_goldcoin(coin):
   for item in range(0, count):
     coin_positions = find_coin_positions(config.img_dir + coin[item] + ".PNG", config.REGION_LOOT)
     for group, positions in coin_positions.items():
-      # get first position for each group of coin
-      position = positions[0]
+      position = positions[0]        # get first position for each group of coin
       center_x, center_y = position  # find center for each coin
       pyautogui.moveTo(center_x, center_y)
       sleep(0.5)
@@ -124,8 +123,6 @@ def loot_goldcoin(coin):
 def drop_loot_on_floor(dropitems, bags):
   count_bags = len(bags)
   count_items = len(dropitems)
-  #for i in range(0,(count_bags)):
-    #bagloot = pyautogui.locateAllOnScreen(config.img_dir + bags[i] + ".PNG", confidence=0.9, region=config.REGION_LOOT)
   bagloot = pyautogui.locateAllOnScreen(config.img_dir + bags[0] + ".PNG", confidence=0.99, region=config.REGION_LOOT)  
   for bag in bagloot:
     center_x, center_y = pyautogui.center(bag)
