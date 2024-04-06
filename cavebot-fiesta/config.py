@@ -13,7 +13,8 @@ img_dir =  "cavebot-fiesta/antiga/images/"
 icons_dir = "cavebot-fiesta/antiga/icons/"
 
 # items to collect from corpse
-items = ["goldcoin1", "goldcoin2"]                      # gold coins from loot (5-9 and 10-24 stacks)
+items = []                                              # loot this items
+coins = ["goldcoin1", "goldcoin2"]                      # gold coins from loot (1-4 and 5-100 stacks)
 food = ["ham", "meat"]                                  # food to eat from dead corpse
 drop_items = ["mace", "sword"]                          # items to drop on the floor
 bpname = img_dir + "backpack" + ".PNG"                  # backpack to store gold
