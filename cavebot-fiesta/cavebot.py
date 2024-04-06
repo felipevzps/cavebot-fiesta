@@ -39,7 +39,8 @@ while True:
                         print(current_time, ':', 'Clean battle')
                         functions.open_corpse(config.dead_monster)
                         functions.eat_food_from_corpse(config.food)
-                        functions.loot_corpse(config.items)
+                        #functions.loot_corpse(config.items)
+                        functions.loot_goldcoin(config.coins)
                         functions.drop_loot_on_floor(config.drop_items, config.bags)
                         print('---')
                         break
