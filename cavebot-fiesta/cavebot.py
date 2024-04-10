@@ -14,7 +14,7 @@ print('---')
 
 while True:
     if functions.loop_status:
-        for waypoint in range(33):
+        for waypoint in range(13):
             position_in_map = pyautogui.locateOnScreen(config.icons_dir + "icon_{}.png".format(waypoint), confidence=0.9, region=config.REGION_MINIMAP)
             if position_in_map:
                 t = time.localtime()
@@ -30,6 +30,8 @@ while True:
                     current_time = time.strftime("%H:%M:%S", t)
                     print(current_time, ':', 'Already on waypoint: {}'.format(waypoint))
                     functions.conjure_rune()
+                    functions.attack_next_monster()
+                
                     while True:
                       functions.conjure_rune()
                       battle = pyautogui.locateOnScreen(config.img_dir + "battle.PNG", confidence=0.9, region=config.REGION_BATTLE)

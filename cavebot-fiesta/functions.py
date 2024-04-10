@@ -33,26 +33,29 @@ def eat_food():
 
 # search for monster and attack if it is on battle
 def attack_next_monster(): 
-  for target in config.target_list:
-    targeting = pyautogui.locateOnScreen(config.img_dir + "targeting_" + target + ".PNG", confidence=0.99, region=config.REGION_BATTLE)
-    monster_on_battle = pyautogui.locateOnScreen(config.img_dir + target + ".PNG", confidence=0.9, region=config.REGION_BATTLE)
-    if monster_on_battle and not targeting:
-      sleep(1)
-      pyautogui.moveTo(config.MONSTER_IN_BATTLE)
-      sleep(0.5)
-      pyautogui.click(button="left")
+  monster_on_battle = True
+  while monster_on_battle != None:
+    for target in config.target_list:
+      targeting = pyautogui.locateOnScreen(config.img_dir + "targeting_" + target + ".PNG", confidence=0.99, region=config.REGION_BATTLE)
+      monster_on_battle = pyautogui.locateOnScreen(config.img_dir + target + ".PNG", confidence=0.9, region=config.REGION_BATTLE)
+      if monster_on_battle and not targeting:
+        sleep(1)
+        pyautogui.moveTo(config.MONSTER_IN_BATTLE)
+        sleep(0.5)
+        pyautogui.click(button="left")
+      break
 
 # open dead corpse in REGION_PLAYER (8x8 sqm)
 def open_corpse(target_monster):
   count = len(target_monster)
   for monster in range(0,(count)):
-    dead_monster = pyautogui.locateAllOnScreen(config.img_dir + target_monster[monster] + ".PNG", confidence=0.95, region=config.REGION_PLAYER)
+    dead_monster = pyautogui.locateAllOnScreen(config.img_dir + target_monster[monster] + ".PNG", confidence=0.96, region=config.REGION_PLAYER)
     sleep(0.5)
     for corpse in dead_monster:
       center_x, center_y = pyautogui.center(corpse)
       pyautogui.moveTo(center_x, center_y)
       pyautogui.click(button="right")
-      sleep(0.5)
+      sleep(0.8)
 
 # eat food from corpse loot (meat, ham, etc)
 def eat_food_from_corpse(fooditems):
@@ -159,4 +162,4 @@ def thread_attack_monster():
 # creates a attack thread outside principal loop
 threadKillMonster = threading.Thread(target=thread_attack_monster)
 threadKillMonster.daemon = True  # defining thread as daemon to stop it when the principal program ends
-threadKillMonster.start()
+#threadKillMonster.start()
