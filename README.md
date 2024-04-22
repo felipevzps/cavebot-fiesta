@@ -23,9 +23,9 @@ pip install opencv-python
 
 Before running, set up the [configuration file](https://github.com/felipevzps/cavebot-fiesta/blob/main/cavebot-fiesta/config.py).
 
->**Note:** Execute [locateOnScreen.py](https://github.com/felipevzps/cavebot-fiesta/blob/main/locateOnScreen.py) to capture coordinates. Hover your mouse over desired locations while the script runs, and save the X,Y coords in the configuration file.
+>**Note:** Execute [locateOnScreen.py](https://github.com/felipevzps/cavebot-fiesta/blob/main/utils/locateOnScreen.py) to capture coordinates. Hover your mouse over desired locations while the script runs, and save the X,Y coords in the configuration file.
 >
->You also have to set the waypoints route in your MINIMAP using [screenshot.py](https://github.com/felipevzps/cavebot-fiesta/blob/main/screenshot.py).
+>You also have to set the waypoints route in your MINIMAP using [screenshot.py](https://github.com/felipevzps/cavebot-fiesta/blob/main/utils/screenshot.py).
 
 Then, run the bot in VSCode, minimize it, and press `PageUp` in-game to start the cavebot.
 
@@ -41,4 +41,4 @@ Mana trainer (adori vis // adura vita) = F3
 
 [functions.py](https://github.com/felipevzps/cavebot-fiesta/blob/main/cavebot-fiesta/functions.py) optimizes performance with multithreading.
 
-The `threadKillMonster` manages the `thread_attack_monster` function. This parallel approach optimizes the bot's performance, especially when searching for images or executing actions simultaneously, ensuring a more responsive experience.
+The `threadKillMonster` manages the `attack_next_monster` function. This parallel approach optimizes the bot's performance, especially when searching for images or executing actions simultaneously.
