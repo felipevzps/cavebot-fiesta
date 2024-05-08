@@ -2,13 +2,13 @@
 
 Automated cavebot for tibia 7.4
 
-Features include: `cavebot`, `auto loot`, `rune maker` and `mining`.
+Features include: `cavebot 100% AFK`, `auto looter`, `auto attacker`, `rune maker`, `waypoints maker`, `drop food and items on the floor` and `mining`.
 
 This repository also includes [autofishing](https://github.com/felipevzps/cavebot-fiesta/blob/main/utils/autofishing.py) and an [auto trainer](https://github.com/felipevzps/cavebot-fiesta/blob/main/utils/trainer.py) (exclusive for knights, allowing for 100% AFK training).
 
 > **Note:** [Mining (darkrest only)](https://darkrest-online.gitbook.io/darkrest.online-wiki/gathering-and-crafting/gathering) is a lucrative gathering profession centered around extracting valuable ores from mineral deposits found scattered across the game world.
 
-![](https://github.com/felipevzps/cavebot-fiesta/blob/main/cavebot-fiesta/darkrest/images/cavebot-fiesta.png)
+![](https://github.com/felipevzps/cavebot-fiesta/blob/main/cavebot-fiesta/cavebot-fiesta.gif)
 
 ## Requirements
 
