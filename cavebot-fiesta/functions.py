@@ -83,65 +83,80 @@ def loot_corpse(lootitems):
       pyautogui.press('enter')
       sleep(1)
 
-def find_coin_positions(coin, region):
+# find goldcoin group position (cluster)
+def find_coin_positions(coin_image, region):
     coin_positions = defaultdict(list)
-    find_objects = pyautogui.locateAllOnScreen(coin, confidence=0.9, region=region)
-    
+    find_objects = pyautogui.locateAllOnScreen(coin_image, confidence=0.9, region=region)
+
     for coin_pos in find_objects:
-        # Check if this coin is already part of a group
         added_to_group = False
         for group, positions in coin_positions.items():
-            # Check if the coin is close to any coin in the group
             for pos in positions:
                 if abs(coin_pos.left - pos[0]) < 20 and abs(coin_pos.top - pos[1]) < 20:
-                    coin_positions[group].append((coin_pos.left, coin_pos.top))
+                    coin_positions[group].append((coin_pos.left, coin_pos.top, coin_pos.width, coin_pos.height))
                     added_to_group = True
                     break
             if added_to_group:
                 break
-        
-        # If the coin doesn't belong to any existing group, create a new group
+
         if not added_to_group:
-            coin_positions[len(coin_positions) + 1].append((coin_pos.left, coin_pos.top))
+            coin_positions[len(coin_positions) + 1].append((coin_pos.left, coin_pos.top, coin_pos.width, coin_pos.height))
 
     return coin_positions
 
-# loot items from corpse
-def loot_goldcoin(coin):
-  backpack = pyautogui.locateOnScreen(config.bpname)
-  count = len(coin)
-  for item in range(0, count):
-    coin_positions = find_coin_positions(config.img_dir + coin[item] + ".PNG", config.REGION_LOOT)
-    for group, positions in coin_positions.items():
-      position = positions[0]        # get first position for each group of coin
-      center_x, center_y = position  # find center for each coin
-      pyautogui.moveTo(center_x, center_y)
-      sleep(0.5)
-      pyautogui.dragTo(backpack.left, backpack.top + 20, duration=0.5)
-      sleep(0.5)
-      pyautogui.press('enter')
-      sleep(1)
+# loot goldcoins from corpse
+def loot_goldcoin(coins):
+    backpack = pyautogui.locateOnScreen(config.bpname)
+    if not backpack:
+        print("Backpack not found")
+        return
+
+    for coin in coins:
+        while True:
+            coin_positions = find_coin_positions(config.img_dir + coin + ".PNG", config.REGION_LOOT)
+            if not coin_positions:
+                break  # exit if no more coins are found
+
+            # flag to check if any coin was looted in this iteration
+            looted = False
+
+            for group, positions in coin_positions.items():
+                if positions:
+                    position = positions[0]  # get the first coin position in the group
+                    center_x = position[0] + position[2] // 2
+                    center_y = position[1] + position[3] // 2
+                    pyautogui.moveTo(center_x, center_y)
+                    sleep(0.5)
+                    pyautogui.dragTo(backpack.left, backpack.top + 20, duration=0.5)
+                    sleep(0.5)
+                    pyautogui.press('enter')
+                    sleep(1)
+                    looted = True
+                    break  # break after looting the first coin in the group
+
+            if not looted:
+                break  # exit if no coin was looted in this iteration
 
 # drop loot on the floor
 def drop_loot_on_floor(dropitems, bags):
-  count_bags = len(bags)
-  count_items = len(dropitems)
-  bagloot = pyautogui.locateAllOnScreen(config.img_dir + bags[0] + ".PNG", confidence=0.99, region=config.REGION_LOOT)  
-  for bag in bagloot:
-    center_x, center_y = pyautogui.center(bag)
-    pyautogui.moveTo(center_x, center_y)
-    sleep(0.5)
-    pyautogui.click(button="right")
-    sleep(0.2)
-  for item in range(0,(count_items)):
-      item_to_drop = pyautogui.locateAllOnScreen(config.img_dir + dropitems[item] + ".PNG", confidence=0.9, region=config.REGION_LOOT)
-      for drop_item in item_to_drop:
-        center_x, center_y = pyautogui.center(drop_item)
-        pyautogui.moveTo(center_x, center_y)
-        sleep(0.5)
-        pyautogui.dragTo(config.PLAYER_SQM, duration=0.8)
-        sleep(0.5)
-        
+    for bag in bags:
+        bag_positions = list(pyautogui.locateAllOnScreen(config.img_dir + bag + ".PNG", confidence=0.99, region=config.REGION_LOOT))
+        for position in bag_positions:
+            center_x, center_y = pyautogui.center(position)
+            pyautogui.moveTo(center_x, center_y)
+            sleep(0.5)
+            pyautogui.click(button="right")
+            sleep(0.2)
+    
+    for dropitem in dropitems:
+        item_positions = list(pyautogui.locateAllOnScreen(config.img_dir + dropitem + ".PNG", confidence=0.9, region=config.REGION_LOOT))
+        for position in item_positions:
+            center_x, center_y = pyautogui.center(position)
+            pyautogui.moveTo(center_x, center_y)
+            sleep(0.5)
+            pyautogui.dragTo(config.PLAYER_SQM, duration=0.8)
+            sleep(0.5)
+
 # move mouse to center of the image
 def move(location):
   x,y = pyautogui.center(location)
