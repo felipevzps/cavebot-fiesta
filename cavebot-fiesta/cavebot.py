@@ -14,7 +14,7 @@ print('---')
 
 while True:
     if functions.loop_status:
-        for waypoint in range(13):
+        for waypoint in range(1,33):
             position_in_map = pyautogui.locateOnScreen(config.icons_dir + "icon_{}.png".format(waypoint), confidence=0.9, region=config.REGION_MINIMAP)
             if position_in_map:
                 t = time.localtime()
@@ -39,7 +39,8 @@ while True:
                         t = time.localtime()
                         current_time = time.strftime("%H:%M:%S", t)
                         print(current_time, ':', 'Clean battle')
-                        functions.open_corpse(config.dead_monster)
+                        #functions.open_corpse(config.dead_monster)
+                        #functions.open_corpse()
                         functions.eat_food_from_corpse(config.food)
                         #functions.loot_corpse(config.items)
                         functions.loot_goldcoin(config.coins)
