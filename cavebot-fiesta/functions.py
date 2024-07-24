@@ -31,9 +31,11 @@ def eat_food():
   for i in range(2):
     pyautogui.click(config.REGION_ARROW, button='right')
 
+'''
 # search for monster and attack if it is on battle
 def attack_next_monster(): 
   monster_on_battle = True
+  monster_attacked = False
   while monster_on_battle != None:
     for target in config.target_list:
       targeting = pyautogui.locateOnScreen(config.img_dir + "targeting_" + target + ".PNG", confidence=0.99, region=config.REGION_BATTLE)
@@ -43,8 +45,47 @@ def attack_next_monster():
         pyautogui.moveTo(config.MONSTER_IN_BATTLE)
         sleep(0.5)
         pyautogui.click(button="left")
+        monster_attacked = True
+        break
+    else:
+      # If no monster is found in the loop, exit the while loop
       break
+  if monster_attacked:
+     open_corpse()
+'''
 
+# search for monster and attack if it is on battle
+def attack_next_monster():
+    monster_attacked = False
+    while True:
+        monster_on_battle = False
+        for target in config.target_list:
+            targeting = pyautogui.locateOnScreen(config.img_dir + "targeting_" + target + ".PNG", confidence=0.99, region=config.REGION_BATTLE)
+            monster_on_battle = pyautogui.locateOnScreen(config.img_dir + target + ".PNG", confidence=0.9, region=config.REGION_BATTLE)
+            if monster_on_battle and not targeting:
+                sleep(1)
+                pyautogui.moveTo(config.MONSTER_IN_BATTLE)
+                sleep(0.5)
+                pyautogui.click(button="left")
+                monster_attacked = True  # set to True when a monster is attacked
+                break
+        # exit the while loop if no monster is found
+        if not monster_on_battle:
+            break
+
+    # check if a monster was attacked
+    if monster_attacked:
+        open_corpse()
+
+# open dead corpse in REGION_PLAYER (8x8 sqm)
+def open_corpse():
+  pos_list = [(1223, 206), (1263, 208), (1301, 213), (1305, 252), (1302, 289), (1265, 285), (1226, 287), (1220, 251)]
+  for pos in pos_list:
+    pyautogui.moveTo(pos[0], pos[1])
+    pyautogui.click(button="right")
+    #sleep(0.3)
+    
+'''
 # open dead corpse in REGION_PLAYER (8x8 sqm)
 def open_corpse(target_monster):
   count = len(target_monster)
@@ -56,6 +97,7 @@ def open_corpse(target_monster):
       pyautogui.moveTo(center_x, center_y)
       pyautogui.click(button="right")
       sleep(0.8)
+'''
 
 # eat food from corpse loot (meat, ham, etc)
 def eat_food_from_corpse(fooditems):
@@ -127,10 +169,10 @@ def loot_goldcoin(coins):
                     center_y = position[1] + position[3] // 2
                     pyautogui.moveTo(center_x, center_y)
                     sleep(0.5)
-                    pyautogui.dragTo(backpack.left, backpack.top + 20, duration=0.5)
-                    sleep(0.5)
+                    pyautogui.dragTo(backpack.left, backpack.top + 20, duration=0.2)
+                    sleep(0.1)
                     pyautogui.press('enter')
-                    sleep(1)
+                    sleep(0.3) # 1
                     looted = True
                     break  # break after looting the first coin in the group
 
