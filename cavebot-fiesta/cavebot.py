@@ -1,5 +1,6 @@
 import pyautogui
-import config
+#import config_nostalther as config       # import nostalther config
+import config_antiga as config            # import antiga config
 import functions
 import time
 from time import sleep
@@ -14,7 +15,7 @@ print('---')
 
 while True:
     if functions.loop_status:
-        for waypoint in range(1,33):
+        for waypoint in config.WAYPOINT_RANGE: 
             position_in_map = pyautogui.locateOnScreen(config.icons_dir + "icon_{}.png".format(waypoint), confidence=0.9, region=config.REGION_MINIMAP)
             if position_in_map:
                 t = time.localtime()
@@ -39,8 +40,8 @@ while True:
                         t = time.localtime()
                         current_time = time.strftime("%H:%M:%S", t)
                         print(current_time, ':', 'Clean battle')
-                        #functions.open_corpse(config.dead_monster)
-                        #functions.open_corpse()
+                        #functions.open_corpse(config.dead_monster)      # locate dead monster corpse
+                        #functions.open_corpse()                         # 8x8 right-clicks to open corpse
                         functions.eat_food_from_corpse(config.food)
                         #functions.loot_corpse(config.items)
                         functions.loot_goldcoin(config.coins)
