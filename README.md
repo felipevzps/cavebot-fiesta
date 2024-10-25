@@ -21,7 +21,7 @@ pip install opencv-python
 
 ## Usage
 
-Before running, set up the [configuration file](https://github.com/felipevzps/cavebot-fiesta/blob/main/cavebot-fiesta/config.py).
+Before running, set up the [configuration file](https://github.com/felipevzps/cavebot-fiesta/blob/main/cavebot-fiesta/config_antiga.py).
 
 >**Note:** Execute [locateOnScreen.py](https://github.com/felipevzps/cavebot-fiesta/blob/main/utils/locateOnScreen.py) to capture coordinates. Hover your mouse over desired locations while the script runs, and save the X,Y coords in the configuration file.
 >
